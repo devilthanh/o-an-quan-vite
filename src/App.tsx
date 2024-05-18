@@ -37,7 +37,7 @@ function App() {
   };
 
   const calQuan = (count: number) => {
-    return Math.floor(count / 100);
+    return Math.floor(Math.abs(count / 100));
   };
 
   const calDan = (count: number) => {
@@ -84,7 +84,7 @@ function App() {
         isPlaying: true,
       });
     },
-    [gameState]
+    [gameState, isCurrentPlayerCell, nextCell]
   );
 
   useEffect(() => {
@@ -211,11 +211,11 @@ function App() {
       }
     };
 
-    let intervalId = setInterval(gamePlay, 1000);
+    const intervalId = setInterval(gamePlay, 1000);
     return () => {
       clearInterval(intervalId);
     };
-  }, [gameState]);
+  }, [gameState, nextCell]);
 
   return (
     <>
@@ -251,7 +251,7 @@ function App() {
           </div>
         </div>
         <div className="grow flex flex-col">
-          <div className="flex w-full border border-gray-700 w-32 h-32">
+          <div className="flex border border-gray-700 w-32 h-32">
             {gameState.table.map((cell, i) => (
               <div
                 key={`cell-${i}`}
@@ -287,7 +287,7 @@ function App() {
               </div>
             ))}
           </div>
-          <div className="flex w-full border border-gray-700 w-32 h-32 flex-row-reverse">
+          <div className="flex border border-gray-700 w-32 h-32 flex-row-reverse">
             {gameState.table.map((cell, i) => (
               <div
                 key={`cell-${i}`}
